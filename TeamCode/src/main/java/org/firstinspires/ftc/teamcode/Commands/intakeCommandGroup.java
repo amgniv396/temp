@@ -7,23 +7,23 @@ import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.BarnRobot;
-import org.firstinspires.ftc.teamcode.SubSystems.Arm;
+import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
 
 public class intakeCommandGroup {
     public static Command prepareIntake() {
         return new ParallelCommandGroup(
-                BarnRobot.getInstance().arm.setPosition(Arm.middle),
+                BarnRobot.getInstance().arm.setPositionCommand(ArmSubSystem.middle),
                 BarnRobot.getInstance().claw.release()
         );
     }
 
     public static Command Intake() {
         return new SequentialCommandGroup(
-                BarnRobot.getInstance().arm.setPosition(Arm.down),
+                BarnRobot.getInstance().arm.setPositionCommand(ArmSubSystem.down),
                 new WaitCommand(200),
                 BarnRobot.getInstance().claw.grab(),
                 new WaitCommand(200),
-                BarnRobot.getInstance().arm.setPosition(Arm.up)
+                BarnRobot.getInstance().arm.setPositionCommand(ArmSubSystem.up)
         );
     }
 }
