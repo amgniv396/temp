@@ -8,9 +8,11 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
 import org.firstinspires.ftc.teamcode.SubSystems.ClawSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 public class BarnRobot extends Robot {
     public static BarnRobot instance;
+    public DriveTrain driveTrain;
     public ClawSubSystem claw;
     public ArmSubSystem arm;
     public GamepadEx gamepadEx1;
@@ -29,5 +31,16 @@ public class BarnRobot extends Robot {
 
         claw = new ClawSubSystem();
         arm = new ArmSubSystem();
+        initDriveTrain(gamepadEx1.getLeftX(), gamepadEx1.getLeftY(), gamepadEx1.getRightX());
+    }
+
+    private void initDriveTrain(double x, double y, double yaw) {
+        driveTrain = new DriveTrain();
+        driveTrain.setDefaultCommand(
+                instance.driveTrain.fieldOrientedDrive(
+                        ()-> Math.pow(x,3),
+                        () -> Math.pow(y,3),
+                        () -> Math.pow(yaw,3))
+        );
     }
 }

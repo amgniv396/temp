@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
+import com.seattlesolvers.solverslib.command.RunCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.geometry.Vector2d;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
@@ -18,6 +19,8 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.firstinspires.ftc.teamcode.BarnRobot;
 
+import java.util.function.DoubleSupplier;
+
 public class DriveTrain extends SubsystemBase {
 
     final double[][] transformationMatrix = {
@@ -26,8 +29,6 @@ public class DriveTrain extends SubsystemBase {
             {-1, 1, -1}, //frontRight
             {1, 1, -1} //backRight
     };
-
-    BarnRobot robotInstance = BarnRobot.getInstance();
 
     private final Motor motorFR;
     private final Motor motorFL;
@@ -88,10 +89,14 @@ public class DriveTrain extends SubsystemBase {
     }
 
 
-    public void fieldOrientedDrive(double x, double y, double yaw) {
+    private void fieldOrientedDrive(double x, double y, double yaw) {
         Vector2d joystickDirection = new Vector2d(x, y);
         Vector2d fieldOrientedVector = joystickDirection.rotateBy(0.0);//TODO:insert robot yaw
         drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw);
+    }
+
+    public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
+        return new RunCommand(() -> fieldOrientedDrive(x.getAsDouble(),y.getAsDouble(),yaw.getAsDouble()));
     }
 
 
