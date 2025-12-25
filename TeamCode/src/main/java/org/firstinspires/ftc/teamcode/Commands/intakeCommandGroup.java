@@ -2,28 +2,27 @@ package org.firstinspires.ftc.teamcode.Commands;
 
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
-import com.seattlesolvers.solverslib.command.Robot;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 
-import org.firstinspires.ftc.teamcode.BarnRobot;
+import org.firstinspires.ftc.teamcode.JeruRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
 
 public class intakeCommandGroup {
     public static Command prepareIntake() {
         return new ParallelCommandGroup(
-                BarnRobot.getInstance().arm.setPositionCommand(ArmSubSystem.middle),
-                BarnRobot.getInstance().claw.release()
+                JeruRobot.getInstance().arm.setPositionCommand(ArmSubSystem.middle),
+                JeruRobot.getInstance().claw.release()
         );
     }
 
     public static Command Intake() {
         return new SequentialCommandGroup(
-                BarnRobot.getInstance().arm.setPositionCommand(ArmSubSystem.down),
+                JeruRobot.getInstance().arm.setPositionCommand(ArmSubSystem.down),
                 new WaitCommand(200),
-                BarnRobot.getInstance().claw.grab(),
+                JeruRobot.getInstance().claw.grab(),
                 new WaitCommand(200),
-                BarnRobot.getInstance().arm.setPositionCommand(ArmSubSystem.up)
+                JeruRobot.getInstance().arm.setPositionCommand(ArmSubSystem.up)
         );
     }
 }

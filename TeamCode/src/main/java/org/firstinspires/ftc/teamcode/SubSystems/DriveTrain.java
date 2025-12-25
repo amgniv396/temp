@@ -5,10 +5,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.Command;
-import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.RunCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.geometry.Vector2d;
@@ -17,7 +14,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
-import org.firstinspires.ftc.teamcode.BarnRobot;
+import org.firstinspires.ftc.teamcode.JeruRobot;
 
 import java.util.function.DoubleSupplier;
 
@@ -38,10 +35,10 @@ public class DriveTrain extends SubsystemBase {
     public DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
 
-        motorFL = hardwareMap.get(Motor.class, "FL");
-        motorBL = hardwareMap.get(Motor.class, "BL");
-        motorFR = hardwareMap.get(Motor.class, "FR");
-        motorBR = hardwareMap.get(Motor.class, "BR");
+        motorFL = JeruRobot.getInstance().hardwareMap.get(Motor.class, "FL");
+        motorBL = JeruRobot.getInstance().hardwareMap.get(Motor.class, "BL");
+        motorFR = JeruRobot.getInstance().hardwareMap.get(Motor.class, "FR");
+        motorBR = JeruRobot.getInstance().hardwareMap.get(Motor.class, "BR");
 
         //TODO: reverse motors
     }
@@ -99,13 +96,12 @@ public class DriveTrain extends SubsystemBase {
         return new RunCommand(() -> fieldOrientedDrive(x.getAsDouble(),y.getAsDouble(),yaw.getAsDouble()));
     }
 
-
-//    public void updateTelemetry(double[] power) {
-//        FtcDashboard.getInstance().getTelemetry().addData("frontLeft", power[0]);
-//        FtcDashboard.getInstance().getTelemetry().addData("backLeft", power[1]);
-//        FtcDashboard.getInstance().getTelemetry().addData("frontRight", power[2]);
-//        FtcDashboard.getInstance().getTelemetry().addData("backRight", power[3]);
-//        FtcDashboard.getInstance().getTelemetry().update();
-//    }
+    public void updateTelemetry(double[] power) {
+        FtcDashboard.getInstance().getTelemetry().addData("frontLeft", power[0]);
+        FtcDashboard.getInstance().getTelemetry().addData("backLeft", power[1]);
+        FtcDashboard.getInstance().getTelemetry().addData("frontRight", power[2]);
+        FtcDashboard.getInstance().getTelemetry().addData("backRight", power[3]);
+        FtcDashboard.getInstance().getTelemetry().update();
+    }
 
 }

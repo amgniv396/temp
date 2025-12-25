@@ -1,24 +1,24 @@
 package org.firstinspires.ftc.teamcode.TeleOP;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.teamcode.BarnRobot;
+import org.firstinspires.ftc.onbotjava.handlers.file.TemplateFile;
+import org.firstinspires.ftc.teamcode.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
 
 @TeleOp
 public class manualDrive extends CommandOpMode {
 
-    public BarnRobot robotInstance;
+    public JeruRobot robotInstance;
 
     @Override
     public void initialize() {
-        robotInstance = BarnRobot.getInstance();
+        robotInstance = JeruRobot.getInstance();
 
-        robotInstance.initBarnRobotSystems();
+        robotInstance.initBarnRobot(this);
 
         robotInstance.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 intakeCommandGroup.prepareIntake()
@@ -32,5 +32,10 @@ public class manualDrive extends CommandOpMode {
     @Override
     public void run() {
         super.run();
+    }
+
+    @Override
+    public void end() {
+        JeruRobot.getInstance().resetRobot();
     }
 }
