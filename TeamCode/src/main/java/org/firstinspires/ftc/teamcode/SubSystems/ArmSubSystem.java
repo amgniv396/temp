@@ -8,6 +8,8 @@ import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.JeruRobot;
+
 
 public class ArmSubSystem extends SubsystemBase {
     private final Servo rightServo;
@@ -16,7 +18,16 @@ public class ArmSubSystem extends SubsystemBase {
     public static double middle = 0.25;
     public static double down = 0;
 
-    public ArmSubSystem() {
+    private static ArmSubSystem instance;
+
+    public static synchronized ArmSubSystem getInstance() {
+        if (instance == null) {
+            instance = new ArmSubSystem();
+        }
+        return instance;
+    }
+
+    private ArmSubSystem() {
         rightServo = hardwareMap.get(Servo.class, "armRightServo");
         leftServo = hardwareMap.get(Servo.class, "armLeftServo");
     }

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+import static com.qualcomm.robotcore.util.RobotLog.a;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -19,22 +18,16 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
 
 
-public class JeruRobot extends Robot {
-    public static JeruRobot instance;
+public class JeruRobot extends JeruSystems {
+    private static JeruRobot instance;
     public OpModeType opModeType;
     public AllianceColor allianceColor;
-    public CuttleRevHub controlHub;
-    public CuttleRevHub expansionHub;
-    public VoltageSensor battery;
+    public int startAngle;
     public static GoBildaPinpointDriverRR localizer;
-    public DriveTrain driveTrain;
-    public ClawSubSystem claw;
-    public ArmSubSystem arm;
-    public GamepadEx gamepadEx1;
-    public GamepadEx gamepadEx2;
     public HardwareMap hardwareMap;
     public Telemetry telemetry;
 
+    private JeruRobot(){}
 
     public static synchronized JeruRobot getInstance() {
         if (instance == null) {
@@ -47,51 +40,41 @@ public class JeruRobot extends Robot {
         instance = null;
     }
 
-    public void initBarnRobot(OpMode opMode) {
-        initBarnRobot(opMode, OpModeType.TELEOP, AllianceColor.RED);
-    }
-    public void initBarnRobot(OpMode opMode, OpModeType opModeType) {
-        initBarnRobot(opMode, opModeType, AllianceColor.RED);
-    }
-    public void initBarnRobot(OpMode opMode, AllianceColor allianceColor) {
-        initBarnRobot(opMode, OpModeType.TELEOP, allianceColor);
-    }
-    public void initBarnRobot(OpMode opMode, OpModeType opModeType, AllianceColor allianceColor) {
-        this.opModeType = opModeType;
-        this.allianceColor = allianceColor;
-
+    private void initJeruRobot(OpMode opMode, OpModeType opModeType, AllianceColor allianceColor, int startAngle) {
         hardwareMap = opMode.hardwareMap;
         telemetry = opMode.telemetry;
 
-        this.controlHub = new CuttleRevHub(hardwareMap, "Control Hub");
-        if (opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION) {
-            this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub");
+        this.opModeType = opModeType;
+        this.allianceColor = allianceColor;
+        this.startAngle = startAngle;
+
+        initJeruRobot(opMode);
+    }
+
+    public Builder initJeruRobot() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private OpModeType opModeType = OpModeType.TELEOP;
+        private AllianceColor allianceColor = AllianceColor.RED;
+        private int startAngle = 0;
+
+        public Builder opModeType(OpModeType opModeType) {
+            this.opModeType = opModeType;
+            return this;
+        }
+        public Builder allianceColor(AllianceColor allianceColor) {
+            this.allianceColor = allianceColor;
+            return this;
+        }
+        public Builder angle(int startAngle) {
+            this.startAngle = startAngle;
+            return this;
         }
 
-        gamepadEx1 = new GamepadEx(opMode.gamepad1);
-        gamepadEx2 = new GamepadEx(opMode.gamepad2);
-
-        battery = hardwareMap.voltageSensor.iterator().next();
-
-
-
-        //TODO:may need to change name based on your control and expansion hubs name
-
-    }
-
-    public void initBarnRobotSystems() {
-        claw = new ClawSubSystem();
-        arm = new ArmSubSystem();
-        initDriveTrain(gamepadEx1.getLeftX(), gamepadEx1.getLeftY(), gamepadEx1.getRightX());
-    }
-
-    private void initDriveTrain(double x, double y, double yaw) {
-        driveTrain = new DriveTrain();
-        driveTrain.setDefaultCommand(
-                instance.driveTrain.fieldOrientedDrive(
-                        ()-> Math.pow(x,3),
-                        () -> Math.pow(y,3),
-                        () -> Math.pow(yaw,3))
-        );
+        public void build(OpMode opMode) {
+            JeruRobot.getInstance().initJeruRobot(opMode, opModeType, allianceColor, startAngle);
+        }
     }
 }

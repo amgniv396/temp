@@ -5,9 +5,10 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.onbotjava.handlers.file.TemplateFile;
 import org.firstinspires.ftc.teamcode.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
 
 @TeleOp
 public class manualDrive extends CommandOpMode {
@@ -17,8 +18,10 @@ public class manualDrive extends CommandOpMode {
     @Override
     public void initialize() {
         robotInstance = JeruRobot.getInstance();
-
-        robotInstance.initBarnRobot(this);
+        robotInstance.initJeruRobot()
+                .angle(0)
+                .allianceColor(AllianceColor.BLUE)
+                .build(this);
 
         robotInstance.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 intakeCommandGroup.prepareIntake()

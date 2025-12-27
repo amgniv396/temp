@@ -7,12 +7,21 @@ import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.JeruRobot;
+
 public class ClawSubSystem extends SubsystemBase {
     private final Servo clawServo;
     public static double open = 0.5;
     public static double close = 0;
+    private static ClawSubSystem instance;
+    public static synchronized ClawSubSystem getInstance() {
+        if (instance == null) {
+            instance = new ClawSubSystem();
+        }
+        return instance;
+    }
 
-    public ClawSubSystem() {
+    private ClawSubSystem() {
         clawServo = hardwareMap.get(Servo.class, "claw");
     }
 

@@ -7,22 +7,23 @@ import com.seattlesolvers.solverslib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.JeruRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.ClawSubSystem;
 
 public class intakeCommandGroup {
     public static Command prepareIntake() {
         return new ParallelCommandGroup(
-                JeruRobot.getInstance().arm.setPositionCommand(ArmSubSystem.middle),
-                JeruRobot.getInstance().claw.release()
+                ArmSubSystem.getInstance().setPositionCommand(ArmSubSystem.middle),
+                ClawSubSystem.getInstance().release()
         );
     }
 
     public static Command Intake() {
         return new SequentialCommandGroup(
-                JeruRobot.getInstance().arm.setPositionCommand(ArmSubSystem.down),
+                ArmSubSystem.getInstance().setPositionCommand(ArmSubSystem.down),
                 new WaitCommand(200),
-                JeruRobot.getInstance().claw.grab(),
+                ClawSubSystem.getInstance().grab(),
                 new WaitCommand(200),
-                JeruRobot.getInstance().arm.setPositionCommand(ArmSubSystem.up)
+                ArmSubSystem.getInstance().setPositionCommand(ArmSubSystem.up)
         );
     }
 }

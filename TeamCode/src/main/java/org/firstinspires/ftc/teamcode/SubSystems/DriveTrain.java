@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.JeruRobot;
 import java.util.function.DoubleSupplier;
 
 public class DriveTrain extends SubsystemBase {
-
+    private static DriveTrain instance;
     final double[][] transformationMatrix = {
             {1, 1, 1}, //frontLeft
             {-1, 1, 1}, //backLeft
@@ -32,7 +32,14 @@ public class DriveTrain extends SubsystemBase {
     private final Motor motorBL;
     private final Motor motorBR;
 
-    public DriveTrain() {
+    public static synchronized DriveTrain getInstance() {
+        if (instance == null) {
+            instance = new DriveTrain();
+        }
+        return instance;
+    }
+
+    private DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
 
         motorFL = JeruRobot.getInstance().hardwareMap.get(Motor.class, "FL");
@@ -43,8 +50,7 @@ public class DriveTrain extends SubsystemBase {
         //TODO: reverse motors
     }
 
-    public DriveTrain(double lastAngle){
-        this();
+    public void setYaw(double lastAngle){
         //mmRobot.mmSystems.imu.setYaw(lastAngle);//TODO:insert robot last yaw from autonomous
     }
 
@@ -88,11 +94,11 @@ public class DriveTrain extends SubsystemBase {
 
     private void fieldOrientedDrive(double x, double y, double yaw) {
         Vector2d joystickDirection = new Vector2d(x, y);
-        Vector2d fieldOrientedVector = joystickDirection.rotateBy(0.0);//TODO:insert robot yaw
+        Vector2d fieldOrientedVector = joystickDirection.rotateBy(JeruRobot.getInstance().startAngle);//TODO:insert robot yaw
         drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw);
     }
 
-    public Command fieldOrientedDrive(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
+    public Command fieldOrientedDriveCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier yaw) {
         return new RunCommand(() -> fieldOrientedDrive(x.getAsDouble(),y.getAsDouble(),yaw.getAsDouble()));
     }
 
