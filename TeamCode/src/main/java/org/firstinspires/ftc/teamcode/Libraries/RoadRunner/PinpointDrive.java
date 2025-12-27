@@ -49,7 +49,11 @@ public class PinpointDrive extends MecanumDrive {
 
 
         if (PARAMS.usePinpointIMUForTuning) {
-            lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(zyxOrientation(0, 0, 0)));
+            lazyImu = new LazyImu(hardwareMap, "imu",
+                    new RevHubOrientationOnRobot(
+                            MecanumDrive.PARAMS.logoFacingDirection,
+                            MecanumDrive.PARAMS.usbFacingDirection)
+            );
         }
 
         try {
