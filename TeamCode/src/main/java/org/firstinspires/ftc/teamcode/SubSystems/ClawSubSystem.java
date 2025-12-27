@@ -7,8 +7,6 @@ import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
-import org.firstinspires.ftc.teamcode.JeruRobot;
-
 public class ClawSubSystem extends SubsystemBase {
     private final Servo clawServo;
     public static double open = 0.5;

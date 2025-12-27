@@ -5,10 +5,9 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.teamcode.JeruRobot;
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
-import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
 
 @TeleOp
 public class manualDrive extends CommandOpMode {

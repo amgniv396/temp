@@ -5,7 +5,6 @@ import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 
-import org.firstinspires.ftc.teamcode.JeruRobot;
 import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
 import org.firstinspires.ftc.teamcode.SubSystems.ClawSubSystem;
 

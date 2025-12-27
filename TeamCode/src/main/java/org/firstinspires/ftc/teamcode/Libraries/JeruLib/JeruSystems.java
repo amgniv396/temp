@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.roboctopi.cuttlefishftcbridge.devices.CuttleRevHub;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
-import org.firstinspires.ftc.teamcode.JeruRobot;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 

@@ -2,13 +2,10 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
-
-import org.firstinspires.ftc.teamcode.JeruRobot;
 
 
 public class ArmSubSystem extends SubsystemBase {

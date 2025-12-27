@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Libraries.JeruLib;
 
 import static com.qualcomm.robotcore.util.RobotLog.a;
 
@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruSystems;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
 

@@ -2,8 +2,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.RunCommand;
@@ -14,7 +12,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
-import org.firstinspires.ftc.teamcode.JeruRobot;
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 
 import java.util.function.DoubleSupplier;
 
