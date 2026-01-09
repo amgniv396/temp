@@ -1,17 +1,5 @@
 pid controller
 pidf+val controller
-JeruServoSubsystemBase
-    withServo regular and cuttleFish
-    withEnumPos
-JeruServoSubsystemBase
-    withServo regular and cuttleFish
-    withEnumPos
-JeruMotorOrCRSubsystemBase
-    withMotor + with CR regular and cuttleFish
-    withPID/PIDF control -> withEnumPos
-    setPower
-JeruSubsystemBase
-    withServo + withCR + withMotor regular and cuttleFish
-cuttleFish
+cuttleFish - think so
 auto
 JeruCommandOpMode
