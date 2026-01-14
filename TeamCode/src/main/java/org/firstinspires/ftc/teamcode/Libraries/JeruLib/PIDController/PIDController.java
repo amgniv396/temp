@@ -281,20 +281,6 @@ public class PIDController {
         m_maximumInput = maximumInput;
     }
 
-    /** Disables continuous input. */
-    public void disableContinuousInput() {
-        m_continuous = false;
-    }
-
-    /**
-     * Returns true if continuous input is enabled.
-     *
-     * @return True if continuous input is enabled.
-     */
-    public boolean isContinuousInputEnabled() {
-        return m_continuous;
-    }
-
     /**
      * Sets the minimum and maximum values for the integrator.
      *
@@ -347,14 +333,6 @@ public class PIDController {
         return m_errorRate;
     }
 
-    public double getMinimumIntegral(){
-        return m_minimumIntegral;
-    }
-
-    public double getMaximumIntegral() {
-        return m_maximumIntegral;
-    }
-
     /**
      * Returns the next output of the PID controller.
      *
@@ -402,7 +380,8 @@ public class PIDController {
         return m_kp * m_currentError + m_ki * m_totalError + m_kd * m_errorRate;
     }
 
-    /** Resets the previous error and the integral term. */
+    /** Resets the previous error and the integral term.
+     * call every loop*/
     public void reset() {
         m_currentError = 0;
         m_prevError = 0;
