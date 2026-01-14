@@ -5,18 +5,23 @@ public class SimplePIDFController extends SimplePIDController {
     private double m_ks, m_kv, m_ka;
     public SimplePIDFController(double kp, double ki, double kd, double kf) {
         super(kp, ki, kd);
-        setFF(kf);
+        setKf(kf);
     }
     public SimplePIDFController(double kp, double ki, double kd, double ks, double kv, double ka) {
         super(kp, ki, kd);
         setFF(ks,kv,ka);
     }
-    public void setFF(double kf) {m_kf = kf;}
+    public SimplePIDFController(double kp, double ki, double kd, double ks, double kv, double ka, double kf) {
+        super(kp, ki, kd);
+        setFF(ks,kv,ka);
+        setKf(kf);
+    }
     public void setFF(double ks, double kv, double ka) {
         setKs(ks);
         setKv(kv);
         setKa(ka);
     }
+    public void setKf(double kf) {m_kf = kf;}
     public void setKs(double ks) {
         if (ks < 0.0) {
             throw new IllegalArgumentException("kv must be a non-negative number, got " + ks + "!");
@@ -37,11 +42,12 @@ public class SimplePIDFController extends SimplePIDController {
     }
 
     private double calculateFF(double velocity, double acceleration) {
-        return m_ks * Math.signum(velocity) + m_kv * velocity + m_ka * acceleration;
+        return m_ks * Math.signum(velocity) + m_kv * velocity + m_ka * acceleration + m_kf;
     }
     private double calculateFF(double velocity) {
         return calculateFF(velocity,0);
     }
+
 
 
     public double calculate(double measurement, double setpoint, double velocity, double acceleration) {
