@@ -7,7 +7,7 @@ package org.firstinspires.ftc.teamcode.Libraries.JeruLib.PIDController;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.mathUtils;
 
 /** Implements a PID control loop. */
-public class PIDController {
+public class SimplePIDController {
 
     // Factor for "proportional" control
     private double m_kp;
@@ -66,7 +66,7 @@ public class PIDController {
      * @throws IllegalArgumentException if ki &lt; 0
      * @throws IllegalArgumentException if kd &lt; 0
      */
-    public PIDController(double kp, double ki, double kd) {
+    public SimplePIDController(double kp, double ki, double kd) {
         this(kp, ki, kd, 0.02);
     }
 
@@ -83,11 +83,11 @@ public class PIDController {
      * @throws IllegalArgumentException if period &lt;= 0
      */
     @SuppressWarnings("this-escape")
-    public PIDController(double kp, double ki, double kd, double period) {
+    public SimplePIDController(double kp, double ki, double kd, double period) {
         setPID(kp,ki,kd);
 
         if (period <= 0.0) {
-            throw new IllegalArgumentException("Controller period must be a positive number!");
+            throw new IllegalArgumentException("Controller period must be a positive number, got " + period + "!");
         }
         m_period = period;
     }
@@ -115,7 +115,7 @@ public class PIDController {
      */
     public void setP(double kp) {
         if (kp < 0.0) {
-            throw new IllegalArgumentException("Kp must be a non-negative number!");
+            throw new IllegalArgumentException("Kp must be a non-negative number, got " + kp + "!");
         }
         m_kp = kp;
     }
@@ -127,7 +127,7 @@ public class PIDController {
      */
     public void setI(double ki) {
         if (ki < 0.0) {
-            throw new IllegalArgumentException("Ki must be a non-negative number!");
+            throw new IllegalArgumentException("Ki must be a non-negative number, got " + ki + "!");
         }
         m_ki = ki;
     }
@@ -139,7 +139,7 @@ public class PIDController {
      */
     public void setD(double kd) {
         if (kd < 0.0) {
-            throw new IllegalArgumentException("Kd must be a non-negative number!");
+            throw new IllegalArgumentException("Kd must be a non-negative number, got " + kd + "!");
         }
         m_kd = kd;
     }
