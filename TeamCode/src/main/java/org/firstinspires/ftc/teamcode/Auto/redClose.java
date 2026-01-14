@@ -1,0 +1,59 @@
+package org.firstinspires.ftc.teamcode.Auto;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ProfileAccelConstraint;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
+import com.acmerobotics.roadrunner.Vector2d;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.seattlesolvers.solverslib.command.CommandOpMode;
+import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
+
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+
+//TODO:rot
+@Autonomous
+public class redClose extends CommandOpMode {
+    static JeruRobot robotInstance;
+    public static final Pose2d scorePose = new Pose2d(-58.5, -54.5, Math.toRadians(240));
+    final Pose2d intakePose = new Pose2d(-24, -9, Math.toRadians(180));
+
+    boolean flag = false;
+
+    @Override
+    public void initialize() {
+        robotInstance = JeruRobot.getInstance();
+
+        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
+                .strafeToLinearHeading(new Vector2d(-62, -54), Math.toRadians(244));
+
+        TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
+                .setTangent(Math.toRadians(244 + 180))
+                .splineToConstantHeading(new Vector2d(-59, -46.2), Math.toRadians(244 - 180),
+                        new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.7),
+                        new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.4, MecanumDrive.PARAMS.maxProfileAccel * 0.7));
+
+
+
+        new SequentialCommandGroup(
+               new com.seattlesolvers.solverslib.command.InstantCommand()
+        ).schedule();
+    }
+
+    @Override
+    public void run() {
+        super.run();
+
+        JeruRobot.getInstance().expansionHub.pullBulkData();
+        telemetry.update();
+        FtcDashboard.getInstance().getTelemetry().update();
+    }
+    @Override
+    public void end() {
+        JeruRobot.getInstance().resetRobot();
+    }
+}

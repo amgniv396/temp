@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 @TeleOp
@@ -42,11 +43,13 @@ public class manualDrive extends CommandOpMode {
         new Trigger(() -> robotInstance.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveOnce(
                 intakeCommandGroup.Intake()
         );
+
     }
 
     @Override
     public void run() {
         super.run();
+        JeruRobot.getInstance().expansionHub.pullBulkData();
     }
 
     @Override
