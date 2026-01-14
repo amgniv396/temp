@@ -8,6 +8,8 @@ import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 @TeleOp
 public class manualDrive extends CommandOpMode {
@@ -20,7 +22,18 @@ public class manualDrive extends CommandOpMode {
         robotInstance.initJeruRobot()
                 .angle(0)
                 .allianceColor(AllianceColor.BLUE)
+                .opModeType(OpModeType.EXPERIMENTING_NO_EXPANSION)
                 .build(this);
+
+        //Drive
+        new Trigger(() -> JeruRobot.getInstance().gamepadEx1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.05).whileActiveContinuous(
+                DriveTrain.getInstance().slowmodeFieldOrientedDriveCommand()
+        );
+        robotInstance.gamepadEx1.getGamepadButton(GamepadKeys.Button.OPTIONS).whenPressed(
+                DriveTrain.getInstance().resetYawCommand()
+        );
+
+
 
         robotInstance.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 intakeCommandGroup.prepareIntake()

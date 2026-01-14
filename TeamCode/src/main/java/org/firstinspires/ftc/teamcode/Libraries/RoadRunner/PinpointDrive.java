@@ -45,7 +45,7 @@ public class PinpointDrive extends MecanumDrive {
     public PinpointDrive(HardwareMap hardwareMap, Pose2d pose) {
         super(hardwareMap, pose);
         FlightRecorder.write("PINPOINT_PARAMS", PARAMS);
-        pinpoint = JeruRobot.localizer;
+        pinpoint = JeruRobot.getInstance().localizer;
 
 
         if (PARAMS.usePinpointIMUForTuning) {

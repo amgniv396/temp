@@ -7,6 +7,8 @@ import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
+
 public class ClawSubSystem extends SubsystemBase {
     private final Servo clawServo;
     public static double open = 0.5;
@@ -20,7 +22,7 @@ public class ClawSubSystem extends SubsystemBase {
     }
 
     private ClawSubSystem() {
-        clawServo = hardwareMap.get(Servo.class, "claw");
+        clawServo = JeruRobot.getInstance().hardwareMap.get(Servo.class, "claw");
     }
 
     private void setPosition(double pos) {
