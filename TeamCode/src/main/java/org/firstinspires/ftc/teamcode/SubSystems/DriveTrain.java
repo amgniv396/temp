@@ -4,7 +4,9 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.ftc.GoBildaPinpointDriverRR;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.command.InstantCommand;
@@ -48,12 +50,33 @@ public class DriveTrain extends SubsystemBase {
     private DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
 
-        motorFL = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "FL");
-        motorBL = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "BL");
+        motorFL = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "BL");
+        motorBL = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "FL");
         motorFR = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "FR");
         motorBR = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "BR");
 
+        motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //TODO: reverse motors
+    }
+
+    public void activeFL(){
+        motorFL.setPower(1);
+    }
+    public void activeBL(){
+        motorBL.setPower(1);
+    }
+    public void activeFR(){
+        motorFR.setPower(1);
+    }
+    public void activeBR(){
+        motorBR.setPower(1);
     }
 
     public void setYaw(double lastAngle){
@@ -106,7 +129,7 @@ public class DriveTrain extends SubsystemBase {
     private void fieldOrientedDrive(double x, double y, double yaw) {
         Vector2d joystickDirection = new Vector2d(x, y);
         Vector2d fieldOrientedVector = joystickDirection.rotateBy(
-                JeruRobot.getInstance().startAngle+JeruRobot.getInstance().localizer.getYawScalar());//TODO:check
+                JeruRobot.getInstance().startAngle-Math.toDegrees(JeruRobot.getInstance().localizer.getPositionRR().heading.toDouble()));//TODO:check
         drive(fieldOrientedVector.getX(), fieldOrientedVector.getY(), yaw);
     }
 

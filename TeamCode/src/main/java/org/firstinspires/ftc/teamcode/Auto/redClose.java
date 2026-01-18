@@ -12,6 +12,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.DriveActionCommand;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
@@ -27,8 +28,10 @@ public class redClose extends CommandOpMode {
     @Override
     public void initialize() {
         robotInstance = JeruRobot.getInstance();
+        Pose2d startPos = new Pose2d(0,0,Math.toRadians(0));
+        MecanumDrive drive = new MecanumDrive(JeruRobot.getInstance().hardwareMap, startPos);
 
-        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(currentPose)
+        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(startPos)
                 .strafeToLinearHeading(new Vector2d(-62, -54), Math.toRadians(244));
 
         TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
@@ -40,20 +43,10 @@ public class redClose extends CommandOpMode {
 
 
         new SequentialCommandGroup(
-               new com.seattlesolvers.solverslib.command.InstantCommand()
+                new DriveActionCommand(driveToScorePreloadSample),
+                new DriveActionCommand(driveToIntakeFirst)
         ).schedule();
     }
 
-    @Override
-    public void run() {
-        super.run();
 
-        JeruRobot.getInstance().expansionHub.pullBulkData();
-        telemetry.update();
-        FtcDashboard.getInstance().getTelemetry().update();
-    }
-    @Override
-    public void end() {
-        JeruRobot.getInstance().resetRobot();
-    }
 }

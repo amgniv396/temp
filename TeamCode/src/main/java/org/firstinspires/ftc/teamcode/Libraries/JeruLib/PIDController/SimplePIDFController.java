@@ -4,12 +4,10 @@ public class SimplePIDFController extends SimplePIDController {
     private double m_kf;
     private double m_ks, m_kv, m_ka;
     public SimplePIDFController(double kp, double ki, double kd, double kf) {
-        super(kp, ki, kd);
-        setKf(kf);
+        this(kp, ki, kd, 0,0,0, kf);
     }
     public SimplePIDFController(double kp, double ki, double kd, double ks, double kv, double ka) {
-        super(kp, ki, kd);
-        setFF(ks,kv,ka);
+        this(kp, ki, kd, ks, kv, ka, 0);
     }
     public SimplePIDFController(double kp, double ki, double kd, double ks, double kv, double ka, double kf) {
         super(kp, ki, kd);

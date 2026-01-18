@@ -5,6 +5,7 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruOpMode;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 @TeleOp
-public class manualDrive extends CommandOpMode {
+public class manualDrive extends JeruOpMode {
 
     public JeruRobot robotInstance;
 
@@ -46,14 +47,14 @@ public class manualDrive extends CommandOpMode {
 
     }
 
-    @Override
-    public void run() {
-        super.run();
-        JeruRobot.getInstance().expansionHub.pullBulkData();
-    }
-
-    @Override
-    public void end() {
-        JeruRobot.getInstance().resetRobot();
-    }
+//    @Override
+//    public void run() {
+//        super.run();
+//        JeruRobot.getInstance().expansionHub.pullBulkData();
+//    }
+//
+//    @Override
+//    public void end() {
+//        JeruRobot.getInstance().resetRobot();
+//    }
 }
