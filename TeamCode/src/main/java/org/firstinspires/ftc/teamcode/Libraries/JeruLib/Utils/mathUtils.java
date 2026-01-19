@@ -109,6 +109,81 @@ public abstract class mathUtils {
     }
 
     /**
+     * Snaps an angle to whichever of two target angles is closer,
+     * measured on a circular range of 0–360 degrees.
+     *
+     * <p>This is useful for turrets or any rotating mechanism where
+     * angles wrap around (e.g. 0° == 360°).</p>
+     *
+     * <p>Example:
+     * <pre>
+     * clampInCircle(340, 300, 0) → 0
+     * clampInCircle(320, 300, 0) → 300
+     * </pre>
+     *
+     * @param value the angle to clamp (degrees, any value allowed)
+     * @param a     first clamp target angle (degrees)
+     * @param b     second clamp target angle (degrees)
+     * @return the target angle (a or b) that is closer to {@code value}
+     */
+    public static double clampInCircle(double value, double a, double b) {
+        value = normalize(value);
+        a = normalize(a);
+        b = normalize(b);
+
+        double da = circularDist(value, a);
+        double db = circularDist(value, b);
+
+        // If distances are equal, b is returned
+        return da < db ? a : b;
+    }
+
+    /**
+     * Computes the shortest angular distance between two angles
+     * on a circle (0–360 degrees).
+     *
+     * <p>The result is always in the range [0, 180].</p>
+     *
+     * <p>Examples:
+     * <pre>
+     * circularDist(350, 10)  → 20
+     * circularDist(300, 0)   → 60
+     * </pre>
+     *
+     * @param x first angle (degrees)
+     * @param y second angle (degrees)
+     * @return shortest distance between {@code x} and {@code y} in degrees
+     */
+    public static double circularDist(double x, double y) {
+        double d = Math.abs(x - y) % 360.0;
+        return Math.min(d, 360.0 - d);
+    }
+
+    /**
+     * Normalizes an angle to the range [0, 360).
+     *
+     * <p>This ensures consistent behavior when working with angles
+     * that may be negative or exceed 360 degrees.</p>
+     *
+     * <p>Examples:
+     * <pre>
+     * normalize(-40) → 320
+     * normalize(370) → 10
+     * </pre>
+     *
+     * @param angle angle in degrees (any value allowed)
+     * @return equivalent angle in the range [0, 360)
+     */
+    public static double normalize(double angle) {
+        angle %= 360.0;
+        return angle < 0 ? angle + 360.0 : angle;
+    }
+
+    public static boolean is_closer_to(double current, double target, double candidate) {
+        return Math.abs(candidate - current) < Math.abs(target - current);
+    }
+
+    /**
      * If supplier != null, compares supplier.getAsDouble() to getter.getAsDouble().
      * If they differ, calls setter.accept(newValue).
      *
