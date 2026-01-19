@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
@@ -12,6 +13,8 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.PIDController.SimplePIDController;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.mathUtils;
+
+import java.util.function.DoubleSupplier;
 
 public class TurretSubSystem extends SubsystemBase {
     private final CuttleCrServo rightServo;
@@ -50,12 +53,39 @@ public class TurretSubSystem extends SubsystemBase {
         return new InstantCommand(() -> setPower(power),this);
     }
 
-    public Command getToAndHoldPos(double pos) {
-        return new RunCommand(()->setPower(pid.calculate(encoder.getPose(), pos)));
+    public Command getToAndHoldPos(DoubleSupplier pos) {
+        return new RunCommand(()->setPower(pid.calculate(encoder.getPose(), pos.getAsDouble())));
     }
 
     public Command targetAtGoal() {
-        return getToAndHoldPos(getNormalizeTargetAngle());
+        return getToAndHoldPos(this::getNormalizeTargetAngle);
+    }
+
+
+    public Command targetAtGoalWhileDriving() {
+        return getToAndHoldPos(()->(getNormalizeTargetAngle()+computeCompensatedDirection()));
+    }
+
+    private double computeCompensatedDirection() {
+        Vector2d p = getTargetGoal().minus(JeruRobot.getInstance().localizer.getPositionRR().position);
+        Vector2d vel = JeruRobot.getInstance().localizer.getVelocityRR().linearVel;//TODO:check if true
+
+        double A = p.dot(p);
+        double B = -2 * p.dot(vel);
+        double C = vel.dot(vel) - Math.pow(getExitVal(), 2);
+
+        double disc = Math.pow(B, 2) - 4 * A * C;
+
+        double k1 = (-B + Math.sqrt(disc)) / (2*A);
+        double k2 = (-B - Math.sqrt(disc)) / (2*A);
+
+        if (disc < 0 || Math.max(k1, k2) <= 0)
+            return Math.toDegrees(JeruRobot.getInstance().localizer.getPositionRR().heading.toDouble());
+
+        return (p.times(Math.max(k1,k2)).minus(vel)).norm();
+    }
+    private double getExitVal() {
+        return 0;
     }
 
     private Vector2d getTargetGoal() {
@@ -65,7 +95,8 @@ public class TurretSubSystem extends SubsystemBase {
     }
 
     private double getFiledOrientedTargetAngle() {
-        return Math.atan2(getTargetGoal().y, JeruRobot.getInstance().localizer.getPositionRR().position.x) + 180;
+        return Math.toDegrees(Math.atan2(getTargetGoal().y, JeruRobot.getInstance().localizer.getPositionRR().position.x))
+                + 180 - Math.toDegrees(JeruRobot.getInstance().localizer.getPositionRR().heading.toDouble());
     }
 
     private double getNormalizeTargetAngle() {
