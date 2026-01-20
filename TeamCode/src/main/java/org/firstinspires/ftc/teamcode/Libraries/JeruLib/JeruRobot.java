@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class JeruRobot extends JeruSystems {
     private static JeruRobot instance;
@@ -27,7 +30,7 @@ public class JeruRobot extends JeruSystems {
         instance = null;
     }
 
-    private void initJeruBasics(OpMode opMode, OpModeType opModeType, AllianceColor allianceColor, int startAngle) {
+    private void initJeruBasics(OpMode opMode, OpModeType opModeType, AllianceColor allianceColor, int startAngle, List<String> hubNames) {
         hardwareMap = opMode.hardwareMap;
         telemetry = opMode.telemetry;
 
@@ -35,7 +38,7 @@ public class JeruRobot extends JeruSystems {
         this.allianceColor = allianceColor;
         this.startAngle = startAngle;
 
-        initJeruSystems(opMode);
+        initJeruSystems(opMode, hubNames);
     }
 
     public Builder initJeruRobot() {
@@ -46,6 +49,7 @@ public class JeruRobot extends JeruSystems {
         private OpModeType opModeType = OpModeType.TELEOP;
         private AllianceColor allianceColor = AllianceColor.RED;
         private int startAngle = 0;
+        private List<String> servoHubNames = new ArrayList<String>();
 
         public Builder opModeType(OpModeType opModeType) {
             this.opModeType = opModeType;
@@ -59,9 +63,13 @@ public class JeruRobot extends JeruSystems {
             this.startAngle = startAngle;
             return this;
         }
+        public Builder addServoHub(String name) {
+            this.servoHubNames.add(name);
+            return this;
+        }
 
         public void build(OpMode opMode) {
-            JeruRobot.getInstance().initJeruBasics(opMode, opModeType, allianceColor, startAngle);
+            JeruRobot.getInstance().initJeruBasics(opMode, opModeType, allianceColor, startAngle, servoHubNames);
         }
     }
 }

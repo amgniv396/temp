@@ -13,10 +13,14 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
+import java.util.List;
+
 public class JeruSystems {
 
     public CuttleRevHub controlHub;
     public CuttleRevHub expansionHub;
+    public CuttleRevHub servoHub1;
+    public CuttleRevHub servoHub2;
     public HardwareMap hardwareMap;
     public Telemetry telemetry;
     public GamepadEx gamepadEx1;
@@ -28,12 +32,15 @@ public class JeruSystems {
         DriveTrain.getInstance().setDefaultCommand(
                 DriveTrain.getInstance().fieldOrientedDriveCommand());
     }
-    private void initSystems(OpMode opMode) {
+    private void initSystems(OpMode opMode, List<System> hubNames) {
         //TODO:may need to change name based on your control and expansion hubs name
         this.controlHub = new CuttleRevHub(hardwareMap, "Control Hub");
         if (JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION) {
             this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 2");
         }
+//        for (String name: hubNames) {
+//
+//        }
 
         gamepadEx1 = new GamepadEx(opMode.gamepad1);
         gamepadEx2 = new GamepadEx(opMode.gamepad2);
@@ -50,8 +57,8 @@ public class JeruSystems {
 //        localizer.setPosition(new Pose2d(currentPose.position, currentPose.heading.toDouble() - Math.toRadians(90)));
     }
 
-    protected void initJeruSystems(OpMode opMode) {
-        initSystems(opMode);
+    protected void initJeruSystems(OpMode opMode, List<System> hubNames) {
+        initSystems(opMode, hubNames);
         initDriveTrainDefaultCommand();
         initLocalize(new Pose2d(0,0,0));
     }
