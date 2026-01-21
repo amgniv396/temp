@@ -25,6 +25,7 @@ public class manualDrive extends JeruOpMode {
                 .angle(0)
                 .allianceColor(AllianceColor.BLUE)
                 .opModeType(OpModeType.EXPERIMENTING_NO_EXPANSION)
+                .addServoHub("Servo Hub 3")
                 .build(this);
 
         //Drive
