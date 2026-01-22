@@ -48,11 +48,10 @@ public class manualDrive extends JeruOpMode {
 
     }
 
-//    @Override
-//    public void run() {
-//        super.run();
-//        JeruRobot.getInstance().expansionHub.pullBulkData();
-//    }
+    @Override
+    public void run() {
+        super.run();
+    }
 //
 //    @Override
 //    public void end() {

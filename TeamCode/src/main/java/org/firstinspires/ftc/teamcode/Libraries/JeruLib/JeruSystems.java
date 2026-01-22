@@ -16,11 +16,16 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import java.util.List;
 
 public class JeruSystems {
-
+    private final String controlHubName = "Control Hub";
     public CuttleRevHub controlHub;
+    private final String expansionHubName = "Expansion Hub 2";
     public CuttleRevHub expansionHub;
+    private final String servoHub1Name = "Servo Hub 3";
     public CuttleRevHub servoHub1;
+    private final String servoHub2Name = null;
     public CuttleRevHub servoHub2;
+
+
     public HardwareMap hardwareMap;
     public Telemetry telemetry;
     public GamepadEx gamepadEx1;
@@ -32,23 +37,22 @@ public class JeruSystems {
         DriveTrain.getInstance().setDefaultCommand(
                 DriveTrain.getInstance().fieldOrientedDriveCommand());
     }
-    private void initSystems(OpMode opMode, List<String> hubNames) {
+    private void initSystems(OpMode opMode) {
         //TODO:may need to change name based on your control and expansion hubs name
-        this.controlHub = new CuttleRevHub(hardwareMap, "Control Hub");
-        if (JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION) {
-            this.expansionHub = new CuttleRevHub(hardwareMap, "Expansion Hub 2");
+        this.controlHub = new CuttleRevHub(hardwareMap, controlHubName);
+        if (JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION ||
+            JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION_NO_SERVOHUB) {
+                this.expansionHub = new CuttleRevHub(hardwareMap, expansionHubName);
         }
 
-        if (!hubNames.isEmpty()) {
-            this.servoHub1 = new CuttleRevHub(hardwareMap, hubNames.get(0));
-            hubNames.remove(0);
-        }
-        if (!hubNames.isEmpty()) {
-            this.servoHub2 = new CuttleRevHub(hardwareMap, hubNames.get(0));
-            hubNames.remove(0);
-        }
-        if (!hubNames.isEmpty()) {
-            throw new IllegalArgumentException("can't use more than 2 servo hubs");
+        if (JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_SERVOHUB ||
+            JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION_NO_SERVOHUB) {
+                if (servoHub1Name != null) {
+                    this.servoHub1 = new CuttleRevHub(hardwareMap, servoHub1Name);
+                }
+                if (servoHub2Name != null) {
+                    this.servoHub2 = new CuttleRevHub(hardwareMap, servoHub2Name);
+                }
         }
 
         gamepadEx1 = new GamepadEx(opMode.gamepad1);
@@ -66,8 +70,8 @@ public class JeruSystems {
 //        localizer.setPosition(new Pose2d(currentPose.position, currentPose.heading.toDouble() - Math.toRadians(90)));
     }
 
-    protected void initJeruSystems(OpMode opMode, List<String> hubNames) {
-        initSystems(opMode, hubNames);
+    protected void initJeruSystems(OpMode opMode) {
+        initSystems(opMode);
         initDriveTrainDefaultCommand();
         initLocalize(new Pose2d(0,0,0));
     }
