@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.seattlesolvers.solverslib.command.Command;
@@ -13,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.Direction;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.PIDController.SimplePIDFController;
+import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 
 @Config
 public class shooterSubSystem extends SubsystemBase {
@@ -59,7 +62,6 @@ public class shooterSubSystem extends SubsystemBase {
         timer = new ElapsedTime();
     }
 
-
     private void setPower(double power) {
         leftMotor.setPower(power);
         rightMotor.setPower(power);
@@ -84,5 +86,24 @@ public class shooterSubSystem extends SubsystemBase {
             lastVelocity = currentVelocity;
             timer.reset();
         });
+    }
+
+    public Command setDistanceBasedRPM() {
+        return setRPMCommand(getDistanceBasedVal());
+    }
+
+    public double getDistanceBasedAlliance() {
+        if (JeruRobot.getInstance().allianceColor == AllianceColor.RED)
+            return JeruRobot.getInstance().localizer.getPositionRR().position.minus(new Vector2d(65,65)).norm();
+        return JeruRobot.getInstance().localizer.getPositionRR().position.minus(new Vector2d(-65,65)).norm();
+    }
+
+    public double getDistanceBasedVal() {
+        double dist = getDistanceBasedAlliance();
+        if (dist < 50)
+            return Slow;
+        else if (dist < 100)
+            return Mid;
+        return Fast;
     }
 }
