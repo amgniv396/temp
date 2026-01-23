@@ -20,7 +20,7 @@ import java.util.function.DoubleSupplier;
 public class TurretSubSystem extends SubsystemBase {
     private final CuttleCrServo rightServo;
     private final CuttleCrServo leftServo;
-    private SimplePIDController pid;
+    private final SimplePIDController pid;
     private CuttleEncoder encoder;
     private final double MaxRange = 400;
     private final double MinRange = 0;
@@ -85,7 +85,7 @@ public class TurretSubSystem extends SubsystemBase {
 
         return (p.times(Math.max(k1,k2)).minus(vel)).norm();
     }
-    private double getExitVal() {
+    private double getExitVal() { /// TODO: calc
         return 0;
     }
 

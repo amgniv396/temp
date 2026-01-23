@@ -14,6 +14,10 @@ public class SimplePIDFController extends SimplePIDController {
         setFF(ks,kv,ka);
         setKf(kf);
     }
+    public void setPIDF(double kp, double ki, double kd, double ks, double kv, double ka) {
+        setPID(kp, ki, kd);
+        setFF(ks,kv,ka);
+    }
     public void setFF(double ks, double kv, double ka) {
         setKs(ks);
         setKv(kv);
