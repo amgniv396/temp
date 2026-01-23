@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.OpModeType;
-import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.ArmsSubSystem;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 @TeleOp
@@ -25,7 +25,6 @@ public class manualDrive extends JeruOpMode {
                 .angle(0)
                 .allianceColor(AllianceColor.BLUE)
                 .opModeType(OpModeType.EXPERIMENTING_NO_EXPANSION)
-                .addServoHub("Servo Hub 3")
                 .build(this);
 
         //Drive
@@ -37,13 +36,8 @@ public class manualDrive extends JeruOpMode {
         );
 
 
-
-        robotInstance.gamepadEx1.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                intakeCommandGroup.prepareIntake()
-        );
-
         new Trigger(() -> robotInstance.gamepadEx1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.05).whileActiveOnce(
-                intakeCommandGroup.Intake()
+                intakeCommandGroup.intakeCommand()
         );
 
     }
@@ -52,9 +46,8 @@ public class manualDrive extends JeruOpMode {
     public void run() {
         super.run();
     }
-//
-//    @Override
-//    public void end() {
-//        JeruRobot.getInstance().resetRobot();
-//    }
+    @Override
+    public void end() {
+        super.end();
+    }
 }

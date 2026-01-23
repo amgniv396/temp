@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.seattlesolvers.solverslib.command.Command;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.mathUtils;
 
 import java.util.function.DoubleSupplier;
-
+@Config
 public class TurretSubSystem extends SubsystemBase {
     private final CuttleCrServo rightServo;
     private final CuttleCrServo leftServo;

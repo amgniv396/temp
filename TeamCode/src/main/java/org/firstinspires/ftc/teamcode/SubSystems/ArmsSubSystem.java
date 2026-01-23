@@ -1,41 +1,36 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
-import com.seattlesolvers.solverslib.hardware.motors.CRServo;
 
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.Direction;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
-import org.firstinspires.ftc.teamcode.Libraries.JeruLib.PIDController.SimplePIDFController;
 
 @Config
-public class ArmSubSystem extends SubsystemBase {
+public class ArmsSubSystem extends SubsystemBase {
     private final CuttleServo rightServo;
     private final CuttleServo leftServo;
-    public static double up = 0.5;
-    public static double middle = 0.25;
-    public static double down = 0;
+    public static double open = 0.5;
+    public static double closed = 0.25;
 
-    private static ArmSubSystem instance;
+    private static ArmsSubSystem instance;
 
-    public static synchronized ArmSubSystem getInstance() {
+    public static synchronized ArmsSubSystem getInstance() {
         if (instance == null) {
-            instance = new ArmSubSystem();
+            instance = new ArmsSubSystem();
         }
         return instance;
     }
 
-    private ArmSubSystem() {
+    private ArmsSubSystem() {
         rightServo = new CuttleServo(JeruRobot.getInstance().controlHub, 3);
         leftServo = new CuttleServo(JeruRobot.getInstance().controlHub, 4);
         rightServo.setDirection(Direction.REVERSE);
 
-
-        setPosition(down);
+        setPosition(closed);
     }
 
     private void setPosition(double pos) {

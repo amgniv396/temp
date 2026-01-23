@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.DriveActionCommand;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeSubSystem;
 
 //TODO:rot
 @Autonomous
@@ -44,6 +45,7 @@ public class redClose extends CommandOpMode {
 
         new SequentialCommandGroup(
                 new DriveActionCommand(driveToScorePreloadSample),
+                IntakeSubSystem.getInstance().setPowerCommand(1),
                 new DriveActionCommand(driveToIntakeFirst)
         ).schedule();
     }

@@ -5,24 +5,15 @@ import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
 
-import org.firstinspires.ftc.teamcode.SubSystems.ArmSubSystem;
-import org.firstinspires.ftc.teamcode.SubSystems.ClawSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.ArmsSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.ArmsSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeSubSystem;
 
 public class intakeCommandGroup {
-    public static Command prepareIntake() {
+    public static Command intakeCommand() {
         return new ParallelCommandGroup(
-                ArmSubSystem.getInstance().setPositionCommand(ArmSubSystem.middle),
-                ClawSubSystem.getInstance().release()
-        );
-    }
-
-    public static Command Intake() {
-        return new SequentialCommandGroup(
-                ArmSubSystem.getInstance().setPositionCommand(ArmSubSystem.down),
-                new WaitCommand(200),
-                ClawSubSystem.getInstance().grab(),
-                new WaitCommand(200),
-                ArmSubSystem.getInstance().setPositionCommand(ArmSubSystem.up)
+                IntakeSubSystem.getInstance().setPowerCommand(1),
+                ArmsSubSystem.getInstance().setPositionCommand(ArmsSubSystem.closed)
         );
     }
 }

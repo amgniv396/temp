@@ -14,17 +14,20 @@ public abstract class JeruOpMode extends CommandOpMode {
     @Override
     public void run() {
         super.run();
-        if (JeruRobot.getInstance().opModeType!= OpModeType.EXPERIMENTING_NO_EXPANSION){
+        //get sensors data
+        JeruRobot.getInstance().controlHub.pullBulkData();
+        if (JeruRobot.getInstance().opModeType != OpModeType.EXPERIMENTING_NO_EXPANSION){
             JeruRobot.getInstance().expansionHub.pullBulkData();
         }
         JeruRobot.getInstance().localizer.update();
-        telemetry.addData("a", Math.toDegrees(JeruRobot.getInstance().localizer.getPositionRR().heading.toDouble()));
 
+        //fieldOverlay dashboard
         TelemetryPacket packet = new TelemetryPacket();
         packet.fieldOverlay().setStroke("#3F51B5");
         Drawing.drawRobot(packet.fieldOverlay(), JeruRobot.getInstance().localizer.getPositionRR());
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
 
+        //update outputs
         telemetry.update();
         FtcDashboard.getInstance().getTelemetry().update();
     }
