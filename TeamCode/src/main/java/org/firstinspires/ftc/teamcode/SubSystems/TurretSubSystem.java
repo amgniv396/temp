@@ -20,19 +20,23 @@ import java.util.function.DoubleSupplier;
 public class TurretSubSystem extends SubsystemBase {
     private final CuttleCrServo rightServo;
     private final CuttleCrServo leftServo;
-    private final SimplePIDController pid;
-    private CuttleEncoder encoder;
+
     private final double MaxRange = 400;
     private final double MinRange = 0;
+
     public static double kp = 0;
     public static double ki = 0;
     public static double kd = 0;
+    private static SimplePIDController pid;
+    private final CuttleEncoder encoder;
+
     private static TurretSubSystem instance;
 
     public static synchronized TurretSubSystem getInstance() {
         if (instance == null) {
             instance = new TurretSubSystem();
         }
+        pid.setPID(kp, ki, kd);
         return instance;
     }
 

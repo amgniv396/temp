@@ -3,6 +3,6 @@ saving angle from auto to teleOp
 tast if JeruOpMode Runs and if run runs
 cuttleFish - think so
 auto
-JeruSubsystemBase
+fix pid with the m_period and things
 getExitVal - turret
 batter getRPM based distance
