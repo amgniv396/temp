@@ -54,6 +54,7 @@ import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.DriveCommand
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.MecanumLocalizerInputsMessage;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -114,7 +115,7 @@ public class MecanumDrive {
     public final AccelConstraint defaultAccelConstraint =
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    public static DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
     public final VoltageSensor voltageSensor;
 

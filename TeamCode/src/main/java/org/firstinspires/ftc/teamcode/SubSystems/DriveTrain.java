@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.CuttleServo;
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.Direction;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
+import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
 
 import java.util.function.DoubleSupplier;
 
@@ -34,10 +35,10 @@ public class DriveTrain extends SubsystemBase {
             {1, 1, -1} //backRight
     };
 
-    private final CuttleMotor motorFR;
-    private final CuttleMotor motorFL;
-    private final CuttleMotor motorBL;
-    private final CuttleMotor motorBR;
+    private final DcMotorEx motorFR;
+    private final DcMotorEx motorFL;
+    private final DcMotorEx motorBL;
+    private final DcMotorEx motorBR;
 
     private final double slowmodeMultiplayer = 0.3;
     private final double slowmodeYawMultiplayer = 0.3;
@@ -53,16 +54,18 @@ public class DriveTrain extends SubsystemBase {
     private DriveTrain() {
         super(); //register this subsystem, in order to schedule default command later on.
 
-//        motorFL = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "BL");
-//        motorBL = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "FL");
-//        motorFR = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "FR");
-//        motorBR = JeruRobot.getInstance().hardwareMap.get(DcMotorEx.class, "BR");
+
 
         //BarnYard
-        motorFR = new CuttleMotor(JeruRobot.getInstance().controlHub, 0);
-        motorBR = new CuttleMotor(JeruRobot.getInstance().controlHub, 1);
-        motorFL = new CuttleMotor(JeruRobot.getInstance().expansionHub, 0);
-        motorBL = new CuttleMotor(JeruRobot.getInstance().expansionHub, 1);
+        motorFL = MecanumDrive.leftFront;
+        motorBL = MecanumDrive.leftBack;
+        motorFR = MecanumDrive.rightFront;
+        motorBR = MecanumDrive.rightBack;
+
+//        motorFR = new CuttleMotor(JeruRobot.getInstance().controlHub, 0);
+//        motorBR = new CuttleMotor(JeruRobot.getInstance().controlHub, 1);
+//        motorFL = new CuttleMotor(JeruRobot.getInstance().expansionHub, 0);
+//        motorBL = new CuttleMotor(JeruRobot.getInstance().expansionHub, 1);
 
         //mishmash
 //        CuttleMotor motorFR = new CuttleMotor(JeruRobot.getInstance().controlHub, 0);
@@ -70,13 +73,13 @@ public class DriveTrain extends SubsystemBase {
 //        CuttleMotor motorBL = new CuttleMotor(JeruRobot.getInstance().controlHub, 2);
 //        CuttleMotor motorFL = new CuttleMotor(JeruRobot.getInstance().controlHub, 3);
 
-        motorFL.setDirection(Direction.REVERSE);
-        motorBL.setDirection(Direction.REVERSE);
+        motorFL.setDirection(DcMotorEx.Direction.REVERSE);
+        motorBL.setDirection(DcMotorEx.Direction.REVERSE);
 
-        motorFL.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBL.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFR.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBR.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //TODO: reverse motors
     }
