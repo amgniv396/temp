@@ -10,22 +10,22 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.Di
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 
 @Config
-public class ArmsSubSystem extends SubsystemBase {
+public class armsSubsystem extends SubsystemBase {
     private final CuttleServo rightServo;
     private final CuttleServo leftServo;
     public static double open = 0.5;
     public static double closed = 0.25;
 
-    private static ArmsSubSystem instance;
+    private static armsSubsystem instance;
 
-    public static synchronized ArmsSubSystem getInstance() {
+    public static synchronized armsSubsystem getInstance() {
         if (instance == null) {
-            instance = new ArmsSubSystem();
+            instance = new armsSubsystem();
         }
         return instance;
     }
 
-    private ArmsSubSystem() {
+    private armsSubsystem() {
         rightServo = new CuttleServo(JeruRobot.getInstance().controlHub, 3);
         leftServo = new CuttleServo(JeruRobot.getInstance().controlHub, 4);
         rightServo.setDirection(Direction.REVERSE);

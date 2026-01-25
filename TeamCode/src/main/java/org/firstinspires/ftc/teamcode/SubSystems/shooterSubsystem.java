@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.PIDController.SimplePIDF
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.AllianceColor;
 
 @Config
-public class shooterSubSystem extends SubsystemBase {
+public class shooterSubsystem extends SubsystemBase {
     private final CuttleMotor leftMotor;
     private final CuttleMotor rightMotor;
     public static double Fast = 80;
@@ -31,22 +30,23 @@ public class shooterSubSystem extends SubsystemBase {
     public static double ks = 0;
     public static double kv = 0;
     public static double ka = 0;
+    public static double tolerance = 0;
     private double lastVelocity = 0.0;
     private final ElapsedTime timer;
     private static SimplePIDFController pid;
     public static CuttleEncoder encoder;
 
-    private static shooterSubSystem instance;
+    private static shooterSubsystem instance;
 
-    public static synchronized shooterSubSystem getInstance() {
+    public static synchronized shooterSubsystem getInstance() {
         if (instance == null) {
-            instance = new shooterSubSystem();
+            instance = new shooterSubsystem();
         }
         pid.setPIDF(kp, ki, kd, ks, kv, ka);
         return instance;
     }
 
-    private shooterSubSystem() {
+    private shooterSubsystem() {
         leftMotor = new CuttleMotor(JeruRobot.getInstance().controlHub, 3);
         rightMotor = new CuttleMotor(JeruRobot.getInstance().controlHub, 2);
 
@@ -56,6 +56,7 @@ public class shooterSubSystem extends SubsystemBase {
         rightMotor.setZeroPowerBehaviour(DcMotor.ZeroPowerBehavior.FLOAT);
 
         pid = new SimplePIDFController(kp, ki, kd, ks, kv, ka);
+        pid.setTolerance(tolerance);
 
         encoder = new CuttleEncoder(JeruRobot.getInstance().controlHub, 3, 28);
 
@@ -92,18 +93,25 @@ public class shooterSubSystem extends SubsystemBase {
         return setRPMCommand(getDistanceBasedVal());
     }
 
-    public double getDistanceBasedAlliance() {
+    private double getDistanceBasedAlliance() {
         if (JeruRobot.getInstance().allianceColor == AllianceColor.RED)
             return JeruRobot.getInstance().localizer.getPositionRR().position.minus(new Vector2d(65,65)).norm();
         return JeruRobot.getInstance().localizer.getPositionRR().position.minus(new Vector2d(-65,65)).norm();
     }
 
-    public double getDistanceBasedVal() {
+    private double getDistanceBasedVal() {
         double dist = getDistanceBasedAlliance();
         if (dist < 50)
             return Slow;
         else if (dist < 100)
             return Mid;
         return Fast;
+    }
+
+    public Boolean atSetPoint() {
+        return pid.atSetpoint();
+    }
+    public Command disableSystem() {
+        return new InstantCommand(()->{},this);
     }
 }

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -14,8 +13,7 @@ import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.DriveActionCommand;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeSubSystem;
+import org.firstinspires.ftc.teamcode.SubSystems.intakeSubsystem;
 
 //TODO:rot
 @Autonomous
@@ -45,7 +43,7 @@ public class redClose extends CommandOpMode {
 
         new SequentialCommandGroup(
                 new DriveActionCommand(driveToScorePreloadSample),
-                IntakeSubSystem.getInstance().setPowerCommand(1),
+                intakeSubsystem.getInstance().setPowerCommand(1),
                 new DriveActionCommand(driveToIntakeFirst)
         ).schedule();
     }

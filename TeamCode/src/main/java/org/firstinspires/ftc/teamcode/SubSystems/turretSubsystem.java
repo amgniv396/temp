@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
@@ -17,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Libraries.JeruLib.Utils.mathUtils;
 
 import java.util.function.DoubleSupplier;
 @Config
-public class TurretSubSystem extends SubsystemBase {
+public class turretSubsystem extends SubsystemBase {
     private final CuttleCrServo rightServo;
     private final CuttleCrServo leftServo;
 
@@ -30,17 +29,17 @@ public class TurretSubSystem extends SubsystemBase {
     private static SimplePIDController pid;
     private final CuttleEncoder encoder;
 
-    private static TurretSubSystem instance;
+    private static turretSubsystem instance;
 
-    public static synchronized TurretSubSystem getInstance() {
+    public static synchronized turretSubsystem getInstance() {
         if (instance == null) {
-            instance = new TurretSubSystem();
+            instance = new turretSubsystem();
         }
         pid.setPID(kp, ki, kd);
         return instance;
     }
 
-    private TurretSubSystem() {
+    private turretSubsystem() {
         rightServo = new CuttleCrServo(JeruRobot.getInstance().controlHub, 1);
         leftServo = new CuttleCrServo(JeruRobot.getInstance().controlHub, 2);
 
@@ -114,5 +113,8 @@ public class TurretSubSystem extends SubsystemBase {
         else if (targetAngle < MinRange || targetAngle > MaxRange)
             return  mathUtils.clampInCircle(targetAngle, MinRange, MaxRange);
         return targetAngle;
+    }
+    public Command disableSystem() {
+        return new InstantCommand(()->{},this);
     }
 }

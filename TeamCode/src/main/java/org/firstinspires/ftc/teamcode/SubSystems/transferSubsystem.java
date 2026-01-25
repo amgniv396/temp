@@ -9,23 +9,23 @@ import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.devices.
 import org.firstinspires.ftc.teamcode.Libraries.CuttlefishFTCBridge.src.utils.Direction;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 
-public class IntakeSubSystem extends SubsystemBase {
-    private final CuttleMotor intakeMotor;
-    private static IntakeSubSystem instance;
+public class transferSubsystem extends SubsystemBase {
+    private final CuttleMotor transferMotor;
+    private static transferSubsystem instance;
 
-    public static synchronized IntakeSubSystem getInstance() {
+    public static synchronized transferSubsystem getInstance() {
         if (instance == null) {
-            instance = new IntakeSubSystem();
+            instance = new transferSubsystem();
         }
         return instance;
     }
 
-    private IntakeSubSystem() {
-        intakeMotor = new CuttleMotor(JeruRobot.getInstance().controlHub, 3);
+    private transferSubsystem() {
+        transferMotor = new CuttleMotor(JeruRobot.getInstance().controlHub, 3);
     }
 
     private void setPower(double power) {
-        intakeMotor.setPower(power);
+        transferMotor.setPower(power);
     }
 
     public Command setPowerCommand(double power) {
