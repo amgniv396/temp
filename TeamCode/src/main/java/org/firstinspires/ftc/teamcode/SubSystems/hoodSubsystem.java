@@ -31,6 +31,9 @@ public class hoodSubsystem extends SubsystemBase {
     public Command setPositionCommand(double pos) {
         return new InstantCommand(() -> setPosition(pos),this);
     }
+    public Command setPositionBasedDisAndVal() {
+        return new InstantCommand();
+    }
     public Command disableSystem() {
         return new InstantCommand(()->{},this);
     }

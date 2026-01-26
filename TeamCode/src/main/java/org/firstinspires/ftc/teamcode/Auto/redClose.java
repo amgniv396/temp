@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.Commands.intakeCommandGroup;
+import org.firstinspires.ftc.teamcode.Commands.shootCommandGroup;
 import org.firstinspires.ftc.teamcode.Libraries.JeruLib.JeruRobot;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.DriveActionCommand;
 import org.firstinspires.ftc.teamcode.Libraries.RoadRunner.MecanumDrive;
@@ -27,24 +29,25 @@ public class redClose extends CommandOpMode {
     @Override
     public void initialize() {
         robotInstance = JeruRobot.getInstance();
-        Pose2d startPos = new Pose2d(0,0,Math.toRadians(0));
+        Pose2d startPos = new Pose2d(-60,60,Math.toRadians(60));
         MecanumDrive drive = new MecanumDrive(JeruRobot.getInstance().hardwareMap, startPos);
 
-        TrajectoryActionBuilder driveToScorePreloadSample = drive.actionBuilder(startPos)
-                .strafeToLinearHeading(new Vector2d(-62, -54), Math.toRadians(244));
-
-        TrajectoryActionBuilder driveToIntakeFirst = driveToScorePreloadSample.endTrajectory().fresh()
-                .setTangent(Math.toRadians(244 + 180))
-                .splineToConstantHeading(new Vector2d(-59, -46.2), Math.toRadians(244 - 180),
+        TrajectoryActionBuilder driveToIntakeFirst = drive.actionBuilder(startPos)
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(-40, 40,90), Math.toRadians(90),
                         new TranslationalVelConstraint(MecanumDrive.PARAMS.maxWheelVel * 0.7),
                         new ProfileAccelConstraint(MecanumDrive.PARAMS.minProfileAccel * 0.4, MecanumDrive.PARAMS.maxProfileAccel * 0.7));
 
 
 
         new SequentialCommandGroup(
-                new DriveActionCommand(driveToScorePreloadSample),
-                intakeSubsystem.getInstance().setPowerCommand(1),
-                new DriveActionCommand(driveToIntakeFirst)
+                //preload
+                shootCommandGroup.shootAll(),
+
+                //first
+                new DriveActionCommand(driveToIntakeFirst).alongWith(
+                        intakeCommandGroup.intakeCommand())
+
         ).schedule();
     }
 
